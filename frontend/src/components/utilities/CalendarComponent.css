@@ -1,0 +1,54 @@
+/* FullCalendar Header Customization */
+.fc-toolbar {
+    background-color: #004080; /* Set a beautiful background color */
+    color: white; /* Font color for header text */
+    border-radius: 5px; /* Slightly rounded edges */
+    padding: 5px 10px; /* Add some padding for spacing */
+    font-size: 0.9rem; /* Reduce font size */
+  }
+  
+  .fc-toolbar-title {
+    font-weight: bold; /* Make the title stand out */
+    font-size: 1rem; /* Slightly larger for the title */
+  }
+  
+  .fc-button {
+    background-color: #0066cc; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Add rounded corners */
+    padding: 5px 10px; /* Add spacing inside buttons */
+    font-size: 0.8rem; /* Reduce font size */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+  }
+  
+  .fc-button:hover {
+    background-color: #005bb5; /* Darker shade for hover effect */
+  }
+  
+  .fc-button.fc-button-active {
+    background-color: #003f7f; /* Active button color */
+    color: white;
+  }
+  
+  .fc-button:focus {
+    outline: none; /* Remove focus outline */
+  }
+
+  /* Custom style for Sundays */
+.sunday-holiday {
+  background-color: #ffe6e6; /* Light red for Sundays */
+  pointer-events: none; /* Make it unclickable */
+}
+
+/* Custom style for Saturdays */
+.saturday-holiday {
+  background-color: #ffe6e6; /* Light blue for Saturdays */
+  pointer-events: none; /* Make it unclickable */
+}
+
+/* Ensure text remains readable */
+.sunday-holiday .fc-daygrid-day-number,
+.saturday-holiday .fc-daygrid-day-number {
+  color: #333; /* Darker text color for readability */
+}

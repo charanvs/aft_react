@@ -1,0 +1,32 @@
+.marquee-container {
+  background-color: #004080; /* Background color */
+  color: white; /* Text color */
+  padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  overflow: hidden; /* Hide overflow to create the scrolling effect */
+  position: relative;
+  height: 40px; /* Set height for the marquee container */
+}
+
+.marquee {
+  display: flex;
+  gap: 50px; /* Spacing between items */
+  position: absolute;
+  white-space: nowrap;
+  animation: scroll-left 40s linear infinite; /* Slower scrolling effect */
+}
+
+.marquee-item {
+  flex-shrink: 0; /* Prevent items from shrinking */
+}
+
+/* Keyframes for the scrolling animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%); /* Start off-screen to the right */
+  }
+  100% {
+    transform: translateX(-100%); /* End off-screen to the left */
+  }
+}

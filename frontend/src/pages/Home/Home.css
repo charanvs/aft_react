@@ -1,0 +1,87 @@
+.icon-judgement,
+.icon-case,
+.icon-orders,
+.icon-contact,
+.icon-about {
+  font-size: 1.2rem;
+}
+
+.card-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.list-group-item a:hover {
+  color: #0056b3;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide-in Animation for Cards */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply Animation to Cards */
+.card {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Left Column Animation */
+.left-column {
+  animation: slideIn 1.2s ease-in-out;
+}
+
+/* Middle Column Animation */
+.middle-column {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Right Column Animation */
+.right-column {
+  animation: slideIn 1.2s ease-in-out;
+  animation-delay: 0.5s;
+}
+
+/* Ensure all columns in the row have the same height */
+.row {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Make the columns fill available height */
+.left-column,
+.middle-column,
+.right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Allow cards inside columns to take full height */
+.left-column .card,
+.middle-column .card,
+.right-column .card {
+  flex: 1;
+}

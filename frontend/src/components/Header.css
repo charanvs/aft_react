@@ -1,0 +1,127 @@
+/* Navbar Styling */
+.navbar {
+  background-color: #003366 !important;
+  border-bottom: 3px solid #00509e;
+}
+
+.navbar-brand {
+  font-family: "Merriweather", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff !important;
+}
+
+/* Link Styling */
+.nav-link {
+  color: #cce7ff !important;
+  font-family: "Roboto", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #00d4ff !important;
+  background-color: #002244;
+  text-decoration: none;
+}
+
+/* Active Link Styling */
+.nav-link.active,
+.custom-dropdown.active > .dropdown-toggle {
+  color: #ffffff !important;
+  background-color: #00509e !important;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Dropdown Menu Styling */
+.custom-dropdown .dropdown-menu {
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  background-color: #003366;
+  border-radius: 5px;
+  max-height: 60vh;
+  overflow-y: auto;
+  z-index: 1050;
+}
+
+.custom-dropdown:hover > .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Nested Dropdown Menu Styling */
+.nested-dropdown .dropdown-menu {
+  position: absolute;
+  top: 0;
+  left: 100%; /* Align sub-sub-menu to the right of parent sub-menu */
+  margin-left: 0;
+  background-color: #003366;
+  border-radius: 5px;
+  max-height: 60vh;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  z-index: 1050;
+}
+
+.nested-dropdown:hover > .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateX(0); /* Slide in from the left */
+}
+
+/* Dropdown Items */
+.custom-dropdown .dropdown-item,
+.sub-menu-item,
+.sub-sub-menu-item {
+  padding: 8px 20px;
+  color: #cce7ff;
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  white-space: nowrap;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.custom-dropdown .dropdown-item:hover,
+.sub-menu-item:hover,
+.sub-sub-menu-item:hover {
+  background-color: #00509e !important;
+  color: #ffffff !important;
+}
+
+/* Proper Positioning for Sub-Sub-Menus */
+.nested-dropdown .dropdown-menu {
+  left: 100%; /* Ensure sub-sub-menu aligns next to parent menu */
+  top: 0;
+  background-color: #003366; /* Maintain consistent background */
+  border-radius: 5px;
+  z-index: 1050;
+}
+
+/* Smooth Hover Transitions */
+.dropdown-menu {
+  transition: all 0.3s ease; /* Smooth appearance and disappearance */
+}
+
+/* Hover Effects for Smooth Navigation */
+.custom-dropdown:hover > .dropdown-menu,
+.nested-dropdown:hover > .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dropdown Menu Styling */
+.custom-dropdown .dropdown-menu,
+.nested-dropdown .dropdown-menu {
+  display: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
