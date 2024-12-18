@@ -1,20 +1,37 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import apiClient from "../../apiClient"; // Use centralized apiClient
+
+interface TeamMember {
+  id: number;
+  name: string;
+  salutation: string;
+  image: string;
+}
 
 const MembersComponent: React.FC = () => {
-  const [teamMembers, setTeamMembers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Fetch team members data from the API
-    axios
-      .get("http://localhost:8000/api/teams") // Replace with your actual API endpoint
-      .then((response) => {
-        setTeamMembers(response.data);
-      })
-      .catch((error) => {
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await apiClient.get("/teams");
+        console.log("Fetched Team Members:", response.data); // Debug the API response
+
+        // Check if response.data is an array before setting state
+        if (Array.isArray(response.data)) {
+          setTeamMembers(response.data);
+        } else {
+          console.error("API response is not an array:", response.data);
+          setTeamMembers([]); // Set empty array in case of unexpected response
+        }
+      } catch (error) {
         console.error("Error fetching team members:", error);
-      });
+        setTeamMembers([]); // Fallback to empty array on error
+      }
+    };
+
+    fetchTeamMembers();
   }, []);
 
   useEffect(() => {
@@ -22,10 +39,7 @@ const MembersComponent: React.FC = () => {
 
     if (scrollContainer) {
       const interval = setInterval(() => {
-        if (
-          scrollContainer.scrollTop >=
-          scrollContainer.scrollHeight / 2
-        ) {
+        if (scrollContainer.scrollTop >= scrollContainer.scrollHeight / 2) {
           // Reset scroll to the start of the first batch
           scrollContainer.scrollTop = 0;
         } else {
@@ -54,12 +68,10 @@ const MembersComponent: React.FC = () => {
         {teamMembers.length > 0 ? (
           <div style={{ display: "flex", flexDirection: "column" }}>
             {/* Original members list */}
-            {teamMembers.map((member: any) => (
+            {teamMembers.map((member) => (
               <div
                 key={`original-${member.id}`}
-                style={{
-                  marginBottom: "20px", // Add space between members
-                }}
+                style={{ marginBottom: "20px" }}
               >
                 <img
                   src={`/images/members/${member.image}`} // Adjust path based on your API
@@ -69,16 +81,14 @@ const MembersComponent: React.FC = () => {
                 />
                 <p className="fw-bold">{member.name}</p>
                 <p>{member.salutation}</p>
-                <hr /> {/* Add a divider between members */}
+                <hr />
               </div>
             ))}
             {/* Duplicate the list for seamless scrolling */}
-            {teamMembers.map((member: any) => (
+            {teamMembers.map((member) => (
               <div
                 key={`duplicate-${member.id}`}
-                style={{
-                  marginBottom: "20px", // Add space between members
-                }}
+                style={{ marginBottom: "20px" }}
               >
                 <img
                   src={`/images/members/${member.image}`} // Adjust path based on your API
@@ -88,7 +98,7 @@ const MembersComponent: React.FC = () => {
                 />
                 <p className="fw-bold">{member.name}</p>
                 <p>{member.salutation}</p>
-                <hr /> {/* Add a divider between members */}
+                <hr />
               </div>
             ))}
           </div>

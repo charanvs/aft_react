@@ -6,22 +6,18 @@ import Home from "./pages/Home/Home";
 import Vacancies from "./pages/Vacancies/Vacancies";
 import Judgements from "./pages/Judgements/Judgement";
 
-
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
-<link
-  href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500&display=swap"
-  rel="stylesheet"
-/>
+// Add the Google Fonts link directly to the public/index.html file for better practice.
 
 const App: React.FC = () => {
   return (
-    <Router>
+   // <Router basename="/aft_react"> {/* Set basename to your app's subfolder */}
+    <Router basename="/"> {/* Set basename to your app's subfolder */}
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/judgements" element={<Judgements />} /> {/* Add Judgements route */}
+        <Route path="/judgements" element={<Judgements />} />
         <Route path="/vacancies" element={<Vacancies />} />
       </Routes>
       <Footer />

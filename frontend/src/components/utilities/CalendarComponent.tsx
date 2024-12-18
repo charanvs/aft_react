@@ -2,32 +2,39 @@ import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react"; // Ensure FullCalendar is installed
 import dayGridPlugin from "@fullcalendar/daygrid"; // For the day grid view
 import interactionPlugin from "@fullcalendar/interaction"; // For date click handling
-import axios from "axios";
+import apiClient from "../../apiClient"; // Import the centralized apiClient
 import "./CalendarComponent.css"; // Import custom styles
 
+interface CauseListEvent {
+  title: string;
+  start: string; // Event start date in ISO format
+}
+
 const CalendarComponent: React.FC = () => {
-  const [causeListEvents, setCauseListEvents] = useState([]);
+  const [causeListEvents, setCauseListEvents] = useState<CauseListEvent[]>([]);
 
   useEffect(() => {
     // Fetch cause list events
-    axios
-      .get("http://localhost:8000/api/cause-list") // Replace with your actual API endpoint
-      .then((response) => {
+    const fetchCauseListEvents = async () => {
+      try {
+        const response = await apiClient.get<CauseListEvent[]>("/cause-list");
         setCauseListEvents(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching cause list events:", error);
-      });
+      }
+    };
+
+    fetchCauseListEvents();
   }, []);
 
   // Function to handle date click
   const handleDateClick = (info: any) => {
     const clickedDate = new Date(info.dateStr); // Get the clicked date as a Date object
     const day = clickedDate.getDate(); // Get day without padding
-    const month = clickedDate.toLocaleString("en-US", { month: "short" }); // Get first three characters of the month
-    const year = String(clickedDate.getFullYear()).slice(-2); // Get last two characters of the year
+    const month = clickedDate.toLocaleString("en-US", { month: "short" }); // Month abbreviation
+    const year = String(clickedDate.getFullYear()).slice(-2); // Last two characters of the year
 
-    // Generate the PDF URL
+    // Generate the PDF URL dynamically
     const pdfUrl = `https://aftdelhi.nic.in/dailycauselist/2024/${day}_${month}_${year}.pdf`;
 
     // Open the PDF in a new tab
@@ -46,11 +53,10 @@ const CalendarComponent: React.FC = () => {
   const handleDateClickWithHolidayCheck = (info: any) => {
     const day = new Date(info.dateStr).getDay(); // Get the day of the week
     if (day === 0 || day === 6) {
-      // Prevent action on weekends
       alert("Saturdays and Sundays are holidays!");
       return;
     }
-    handleDateClick(info); // Proceed with regular click handling
+    handleDateClick(info);
   };
 
   return (
@@ -60,18 +66,18 @@ const CalendarComponent: React.FC = () => {
       </div>
       <div className="card-body">
         <FullCalendar
-          plugins={[dayGridPlugin, interactionPlugin]} // Add interactionPlugin for date clicks
+          plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          events={causeListEvents}
-          height={500} // Adjust height for better appearance
+          events={causeListEvents} // Dynamic events fetched from the backend
+          height={500}
           headerToolbar={{
             left: "prev,next today",
             center: "title",
             right: "dayGridMonth,dayGridWeek",
           }}
-          dayMaxEventRows={3} // Limit events per day
-          dateClick={handleDateClickWithHolidayCheck} // Attach the updated date click handler
-          dayCellClassNames={dayCellClassNames} // Add custom classes for weekends
+          dayMaxEventRows={3}
+          dateClick={handleDateClickWithHolidayCheck}
+          dayCellClassNames={dayCellClassNames}
         />
       </div>
     </div>

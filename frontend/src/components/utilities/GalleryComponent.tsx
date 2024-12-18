@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../apiClient"; // Import the centralized apiClient
+
+interface GalleryImage {
+  id: number;
+  image: string;
+  title?: string;
+  description?: string;
+}
 
 const GalleryComponent: React.FC = () => {
-  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
 
   useEffect(() => {
     // Fetch gallery images from the API
-    axios
-      .get("http://localhost:8000/api/gallery") // Replace with your actual API endpoint
-      .then((response) => {
+    const fetchGalleryImages = async () => {
+      try {
+        const response = await apiClient.get<GalleryImage[]>("/gallery");
         setGalleryImages(response.data);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching gallery images:", error);
-      });
+      }
+    };
+
+    fetchGalleryImages();
   }, []);
 
   return (
@@ -44,13 +53,13 @@ const GalleryComponent: React.FC = () => {
 
             {/* Carousel Inner */}
             <div className="carousel-inner">
-              {galleryImages.map((image: any, index: number) => (
+              {galleryImages.map((image, index) => (
                 <div
                   key={image.id}
                   className={`carousel-item ${index === 0 ? "active" : ""}`}
                 >
                   <img
-                    src={`/images/gallery/${image.image}`} // Adjust path based on your setup
+                    src={`/images/gallery/${image.image}`} // Adjust the image path based on your setup
                     className="d-block w-100"
                     alt={image.title || `Gallery Image ${index + 1}`}
                     style={{ maxHeight: "400px", objectFit: "cover" }}

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { NavLink, useLocation } from "react-router-dom";
-import axios from "axios";
 import "./Header.css";
 import MarqueeComponent from "../components/utilities/MarqueeComponent";
+import apiClient from "../apiClient";
 
 interface NavLinkType {
   id: number;
@@ -21,7 +21,7 @@ const Header: React.FC = () => {
   useEffect(() => {
     const fetchNavLinks = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/nav-links");
+        const response = await apiClient.get<NavLinkType[]>("/nav-links"); // Base URL in apiClient
         setNavLinks(response.data);
       } catch (error) {
         console.error("Failed to fetch navigation links:", error);

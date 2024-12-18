@@ -4,8 +4,16 @@ import CalendarComponent from "../../components/utilities/CalendarComponent";
 import GalleryComponent from "../../components/utilities/GalleryComponent";
 import MembersComponent from "../../components/utilities/MembersComponent";
 
+type ActiveComponentType = "welcome" | "calendar" | "gallery";
+
 const Home: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState<string>("welcome"); // State to toggle components
+  const [activeComponent, setActiveComponent] = useState<ActiveComponentType>("welcome");
+
+  // Handle navigation click events
+  const handleLinkClick = (component: ActiveComponentType) => {
+    setActiveComponent(component);
+  };
+
   return (
     <div className="container-fluid py-4">
       <div className="row">
@@ -21,7 +29,7 @@ const Home: React.FC = () => {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    setActiveComponent("calendar");
+                    handleLinkClick("calendar");
                   }}
                   className="text-decoration-none text-dark"
                 >
@@ -33,7 +41,7 @@ const Home: React.FC = () => {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    setActiveComponent("gallery");
+                    handleLinkClick("gallery");
                   }}
                   className="text-decoration-none text-dark"
                 >
@@ -46,23 +54,31 @@ const Home: React.FC = () => {
 
         {/* Middle Column: Dynamic Content */}
         <main className="col-lg-6 col-md-8 mb-4 middle-column">
-          {activeComponent === "calendar" && <CalendarComponent />}
-          {activeComponent === "gallery" && <GalleryComponent />}
-          {activeComponent === "welcome" && (
-            <div className="card shadow-sm border-0">
-              <div className="card-body">
-                <header className="text-center mb-4">
-                  <h1 className="text-primary">Welcome to the Armed Forces Tribunal</h1>
-                </header>
-                <section>
-                  <h2 className="text-secondary">Highlights</h2>
-                  <p>Content will be dynamically displayed here.</p>
-                </section>
-              </div>
-            </div>
-          )}
+          {(() => {
+            switch (activeComponent) {
+              case "calendar":
+                return <CalendarComponent />;
+              case "gallery":
+                return <GalleryComponent />;
+              default:
+                return (
+                  <div className="card shadow-sm border-0">
+                    <div className="card-body">
+                      <header className="text-center mb-4">
+                        <h1 className="text-primary">Welcome to the Armed Forces Tribunal</h1>
+                      </header>
+                      <section>
+                        <h2 className="text-secondary">Highlights</h2>
+                        <p>Content will be dynamically displayed here.</p>
+                      </section>
+                    </div>
+                  </div>
+                );
+            }
+          })()}
         </main>
-         {/* Right Column: Team Section */}
+
+        {/* Right Column: Team Section */}
         <aside className="col-lg-3 col-md-4 mb-4 right-column">
           <MembersComponent />
         </aside>

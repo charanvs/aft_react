@@ -64,7 +64,7 @@ const Judgements: React.FC = () => {
   const fetchJudgements = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/judgements", {
+      const response = await axios.get("http://localhost:8000/api/judgements", {
         params: searchParams,
       });
       setJudgements(response.data);
@@ -89,7 +89,7 @@ const Judgements: React.FC = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/orders?regno=${encodeURIComponent(regno)}`
+        `http://localhost:8000/api/orders?regno=${encodeURIComponent(regno)}`
       );
       setOrders(response.data.interim_judgements);
       setModalTitle(`Orders for Reg No: ${regno}`);
@@ -105,7 +105,8 @@ const Judgements: React.FC = () => {
   const handleViewDetails = async (regno: string) => {
     console.log("Fetching details for Reg No:", regno);
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/judgements/`, {
+    //  const response = await axios.get(`http://aftpb.org/aft_react_backend/public/api/judgements/`, {
+      const response = await axios.get(`http://localhost:8000/api/judgements/`, {
         params: { regno },
       });
       console.log("API Response:", response.data); // Log API response
